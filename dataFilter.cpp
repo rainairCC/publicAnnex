@@ -1,23 +1,20 @@
 // DS2 ex1
-// 10427226 ¶ÀÄµ¾W
-// 10427210 §õªY®¦
-
 #include <cstdlib>
 #include <cstring>
 #include <stdio.h>     // C  printf scanf
 #include <stdlib.h>    // atoi  (char array to integer)
 #include <iostream>    // C++ cout cin
-#include <new>         // °ÊºA°t¸m
-#include<fstream>      // C++ ÅªÀÉ
+#include <new>         // å‹•æ…‹é…ç½®
+#include<fstream>      // C++ è®€æª”
 #include <string.h>
 #include <vector>
 #include <math.h>
 using namespace std;
 
-string   fileName ;    // ÅªÀÉ¦W(¼Æ¦r)
-string   number ;      // ¬ö¿ıÀÉ¦W(¼Æ¦r)
-int mission = 0;       // Åª¤J¥ô°È
-int check = 0 ;        // 0 ªì©l¤Æ ¡A 1 ¦³¸ê®Æ ¡A 2 µL¸ê®Æ½Ğ­«·s¿é¤J¡C
+string   fileName ;    // è®€æª”å(æ•¸å­—)
+string   number ;      // ç´€éŒ„æª”å(æ•¸å­—)
+int mission = 0;       // è®€å…¥ä»»å‹™
+int check = 0 ;        // 0 åˆå§‹åŒ– ï¼Œ 1 æœ‰è³‡æ–™ ï¼Œ 2 ç„¡è³‡æ–™è«‹é‡æ–°è¼¸å…¥ã€‚
 int gPrint = 0;
 string  gSchool;
 string  gDepartment;
@@ -25,7 +22,7 @@ string  gDay_or_night;
 string  gRank;
 
 typedef struct Heap
-{   int i ;            // ¬y¤ô½s¸¹
+{   int i ;            // æµæ°´ç·¨è™Ÿ
     int quantity_student;
 }  ha;
 
@@ -40,48 +37,48 @@ typedef struct cT
 
 
 
-bool load( vector<collegeType> & ) ;               // ÅªÀÉ
-void filter(vector<collegeType> & ) ;              // ¿z¿ï(¥ô°È¤@)
-void need () ;                                     // ¿z¿ï±ø¥ó
-void print() ;                                     // ¦L¥X
-void heapInsert () ;                               // °µmin heap
-vector<collegeType> gAnswer;                       // ¿z¿ï«áµ²ªG
+bool load( vector<collegeType> & ) ;               // è®€æª”
+void filter(vector<collegeType> & ) ;              // ç¯©é¸(ä»»å‹™ä¸€)
+void need () ;                                     // ç¯©é¸æ¢ä»¶
+void print() ;                                     // å°å‡º
+void heapInsert () ;                               // åšmin heap
+vector<collegeType> gAnswer;                       // ç¯©é¸å¾Œçµæœ
 vector<ha> heap;                                   // min heap
 vector<ha> kheap ;
 void swapheap( int , int ) ;
-bool IsOddFloor( int ) ;                           //§PÂ_¼h¼Æ
-void case2(int ) ;                                 // ®¦ «Ü©úÅãªºcase2
-void rebulid(int) ;                                //­«·s«Ø¾ğ
+bool IsOddFloor( int ) ;                           //åˆ¤æ–·å±¤æ•¸
+void case2(int ) ;                                 // æ© å¾ˆæ˜é¡¯çš„case2
+void rebulid(int) ;                                //é‡æ–°å»ºæ¨¹
 void printKans() ;
 
 int main(void){
-  cout << "Åwªï¨Ï¥Î¦¹µ{¦¡!\n" ;
+  cout << "æ­¡è¿ä½¿ç”¨æ­¤ç¨‹å¼!\n" ;
   vector< collegeType >     cSet;                  // set of output records
-  cout << "¿é¤J'1'¡A¨Ì·Ó«ü©wÄæ¦ì¿z¿ï¸ê®ÆÀÉ\n"
-		  "¿é¤J'2'¡A§Yµ²§ô¦¹µ{¦¡¡C\n";
+  cout << "è¼¸å…¥'1'ï¼Œä¾ç…§æŒ‡å®šæ¬„ä½ç¯©é¸è³‡æ–™æª”\n"
+		  "è¼¸å…¥'2'ï¼Œå³çµæŸæ­¤ç¨‹å¼ã€‚\n";
   cin >> mission ;
   int Nnum = 0 ;
   while ( mission < 2 && mission > 0 ) {
-    load(cSet);                                    // ÅªÀÉ
-    if ( check == 1 ) {                            // ½T»{¬O¦³®ÄªºÀÉ¦W
+    load(cSet);                                    // è®€æª”
+    if ( check == 1 ) {                            // ç¢ºèªæ˜¯æœ‰æ•ˆçš„æª”å
          need();
          filter(cSet);
          print();
-         if ( check == 1 && gAnswer.size() != 0 )  {       // ¦pªG¨S¦³¸ê®Æ ´N¤£¶i¥h¥ô°È2
+         if ( check == 1 && gAnswer.size() != 0 )  {       // å¦‚æœæ²’æœ‰è³‡æ–™ å°±ä¸é€²å»ä»»å‹™2
            heapInsert() ;
-           cout << "¿é¤Jnµ§³Ì¤j¸ê®Æ       "  ;
+           cout << "è¼¸å…¥nç­†æœ€å¤§è³‡æ–™       "  ;
 		   cin >> Nnum ;
 		   case2( Nnum);
 		   printKans() ;
          }
          else if( check == 2 ) ;
          else
-		   cout << "0µ§¸ê®Æ¤£¦¨¥ßheap" ;
+		   cout << "0ç­†è³‡æ–™ä¸æˆç«‹heap" ;
     } // if
 
-    cout << "\n­Y·QÄ~Äò¨Ï¥Î¡A½Ğ¦A¦¸¿é¤J«ü¥O¡C\n"
-            "¿é¤J'1'¡A¨Ì·Ó«ü©wÄæ¦ì¿z¿ï¸ê®ÆÀÉ\n"
-            "­YµL¡A½Ğ«ö'2'µ²§ôµ{¦¡\n"  ;
+    cout << "\nè‹¥æƒ³ç¹¼çºŒä½¿ç”¨ï¼Œè«‹å†æ¬¡è¼¸å…¥æŒ‡ä»¤ã€‚\n"
+            "è¼¸å…¥'1'ï¼Œä¾ç…§æŒ‡å®šæ¬„ä½ç¯©é¸è³‡æ–™æª”\n"
+            "è‹¥ç„¡ï¼Œè«‹æŒ‰'2'çµæŸç¨‹å¼\n"  ;
     cSet.clear();
     gAnswer.clear() ;
     heap.clear() ;
@@ -97,14 +94,14 @@ int main(void){
 
 void rebulid(int place ){
    while ( place < heap.size() && place != 0  ){
-     int leftson = place * 2 + 1, rightson = leftson + 1,llgson = leftson *2 +1 ;    //¥ª¨à ¥k¨à ¥ª¥ª®]
-     int lrgson = llgson +1 , rlgson = lrgson +1, rrgson = rlgson +1 ;               // ¥ª¥k®] ¥k¥ª®] ¥k¥k®]
+     int leftson = place * 2 + 1, rightson = leftson + 1,llgson = leftson *2 +1 ;    //å·¦å…’ å³å…’ å·¦å·¦å­«
+     int lrgson = llgson +1 , rlgson = lrgson +1, rrgson = rlgson +1 ;               // å·¦å³å­« å³å·¦å­« å³å³å­«
      int findGson = 0 ;
-                                                                                     // ¥ıÀË¬d¨à¤l¦³¨S¦³¤ñ¥L¤jªº
+                                                                                     // å…ˆæª¢æŸ¥å…’å­æœ‰æ²’æœ‰æ¯”ä»–å¤§çš„
      if ( leftson < heap.size() ) if( heap[leftson].quantity_student > heap[place].quantity_student ) swapheap( leftson,place ) ;
      if ( rightson < heap.size() ) if( heap[rightson].quantity_student > heap[place].quantity_student ) swapheap( rightson,place ) ;
-                                                                                     // ÀË¬d®]¤l¦³¨S¦³¤ñ¥L¤jªº
-     if ( llgson < heap.size() )  findGson = llgson ;                                //§ä¥X ®]¤l¤¤³Ì¤jªº
+                                                                                     // æª¢æŸ¥å­«å­æœ‰æ²’æœ‰æ¯”ä»–å¤§çš„
+     if ( llgson < heap.size() )  findGson = llgson ;                                //æ‰¾å‡º å­«å­ä¸­æœ€å¤§çš„
      if( lrgson < heap.size() && heap[findGson].quantity_student < heap[lrgson].quantity_student ) findGson = lrgson ;
      if( rlgson < heap.size() && heap[findGson].quantity_student < heap[rlgson].quantity_student ) findGson = rlgson ;
      if( rrgson < heap.size() && heap[findGson].quantity_student < heap[rrgson].quantity_student ) findGson = rrgson ;
@@ -115,8 +112,8 @@ void rebulid(int place ){
 
 void case2( int num ){
     for( int k = 0 ; k < num ; k ++ ) {
-      int test = 0 ;                                                 //¬ö¿ı§Ú®³¥ªÃäÁÙ¬O¥kÃäªº
-      if ( heap[1].quantity_student > heap[2].quantity_student ) {   //§PÂ_­şÃä¤j ®³¤jªº¤§«á²¾¨ì³Ì¥k¤U¨¤
+      int test = 0 ;                                                 //ç´€éŒ„æˆ‘æ‹¿å·¦é‚Šé‚„æ˜¯å³é‚Šçš„
+      if ( heap[1].quantity_student > heap[2].quantity_student ) {   //åˆ¤æ–·å“ªé‚Šå¤§ æ‹¿å¤§çš„ä¹‹å¾Œç§»åˆ°æœ€å³ä¸‹è§’
       	kheap.push_back( heap[1] ) ;
       	swapheap( 1, heap.size()-1 ) ;
       	test = 1 ;
@@ -126,72 +123,72 @@ void case2( int num ){
 	    swapheap( 2, heap.size()-1 ) ;
 	    test = 2 ;
 	  }
-	  heap.pop_back() ;  //§R°£³Ì«á¤@­Ó
+	  heap.pop_back() ;  //åˆªé™¤æœ€å¾Œä¸€å€‹
 	  rebulid( test ) ;
 	  test = 0 ;
     }
 
 }
-bool load( vector<collegeType> &cSet ) {                    // ­t³dÅª¤JÀÉ®×ªºfunction
+bool load( vector<collegeType> &cSet ) {                    // è² è²¬è®€å…¥æª”æ¡ˆçš„function
     fstream infile ;
     string name ;
-    char *buffer = new char[255] ;                          // °ÊºA°t¸m¤@­Óchar array¥Î¨Ó¼È¦sÅª¤JªºªF¦è
+    char *buffer = new char[255] ;                          // å‹•æ…‹é…ç½®ä¸€å€‹char arrayç”¨ä¾†æš«å­˜è®€å…¥çš„æ±è¥¿
     while ( 1) {
-      cout << "\n½Ğ¿é¤JÀÉ®×¦WºÙ : \n" ;
-      cin >> name ;                                         // Åª¤JÀÉ®×ªº¦W¦r
+      cout << "\nè«‹è¼¸å…¥æª”æ¡ˆåç¨± : \n" ;
+      cin >> name ;                                         // è®€å…¥æª”æ¡ˆçš„åå­—
       name = "input" + name + ".txt" ;
-      infile.open( name.c_str(), fstream::in ) ;            // ¶}±ÒÀÉ®×
-      if ( !infile ) {                                      // ¦pªGµLªk¶}±Òª½±µµ²§ôload
-          cout << name << "ÀÉ®×¤£¦s¦b" << endl ;
+      infile.open( name.c_str(), fstream::in ) ;            // é–‹å•Ÿæª”æ¡ˆ
+      if ( !infile ) {                                      // å¦‚æœç„¡æ³•é–‹å•Ÿç›´æ¥çµæŸload
+          cout << name << "æª”æ¡ˆä¸å­˜åœ¨" << endl ;
           check == 2;
       }
       else break ;
     }
 
-    for ( int i = 0 ; i < 3 ; i++ )                         // «e¤T¦æ¨Ã«D­nªº¸ê®Æª½±µÅª±¼¤£¤©²z·|
+    for ( int i = 0 ; i < 3 ; i++ )                         // å‰ä¸‰è¡Œä¸¦éè¦çš„è³‡æ–™ç›´æ¥è®€æ‰ä¸äºˆç†æœƒ
         infile.getline( buffer, 255 ) ;
-    delete [] buffer ;                                      // ²MªÅbuffer¤¤ªºªF¦è
+    delete [] buffer ;                                      // æ¸…ç©ºbufferä¸­çš„æ±è¥¿
     buffer = new char[255] ;
 
     int pre = 0, pos = 0 ;
 
-    while(  !infile.eof() ) {                               // ­Y«D¸ê®Æµ²§À«hÄ~Äò°j°é
-        infile.getline( buffer, 255 ) ;                     // Åª¤J¾ã¦æ¸ê®Æ
-        collegeType one ;                                   // ¼È¦s¤Á³Î§¹ªº¸ê®Æ
-         int pre = 0, pos = 0 ;                             // pre¦s¿ï¨ú¦r¦êªº°_©l¦ì¸m   pos¦s³Ì«á¦ì¸m
-        string temp ;                                       // ¦sÂà¦¨Stringªºbuffer
-        temp.assign( buffer ) ;                             // bufferÂàstring
-        int switch_count = 0 ;                              // µ¹¤U­±°j°éªºswitch­p¼Æ¥Î
-        bool check2 = true ;                                // ½T»{¤U­±ªº°j°é¬O§_Ä~Äò
+    while(  !infile.eof() ) {                               // è‹¥éè³‡æ–™çµå°¾å‰‡ç¹¼çºŒè¿´åœˆ
+        infile.getline( buffer, 255 ) ;                     // è®€å…¥æ•´è¡Œè³‡æ–™
+        collegeType one ;                                   // æš«å­˜åˆ‡å‰²å®Œçš„è³‡æ–™
+         int pre = 0, pos = 0 ;                             // preå­˜é¸å–å­—ä¸²çš„èµ·å§‹ä½ç½®   poså­˜æœ€å¾Œä½ç½®
+        string temp ;                                       // å­˜è½‰æˆStringçš„buffer
+        temp.assign( buffer ) ;                             // bufferè½‰string
+        int switch_count = 0 ;                              // çµ¦ä¸‹é¢è¿´åœˆçš„switchè¨ˆæ•¸ç”¨
+        bool check2 = true ;                                // ç¢ºèªä¸‹é¢çš„è¿´åœˆæ˜¯å¦ç¹¼çºŒ
 
-        while ( check2 ) {                                  // ¦¹°j°é¥Î¨Ó¤Á³ÎÅª¤Jªº¾ã¦æ¸ê®Æ
-            pos = temp.find_first_of( '\t', pre ) ;         // §ä¨ì¤U¤@­Ó\tªº¦ì¸m¦s¦bpos
+        while ( check2 ) {                                  // æ­¤è¿´åœˆç”¨ä¾†åˆ‡å‰²è®€å…¥çš„æ•´è¡Œè³‡æ–™
+            pos = temp.find_first_of( '\t', pre ) ;         // æ‰¾åˆ°ä¸‹ä¸€å€‹\tçš„ä½ç½®å­˜åœ¨pos
 
             switch( switch_count++ ) {
-                case 1 :                                    // ¾Ç®Õ½s¸¹¦s¤Jone
+                case 1 :                                    // å­¸æ ¡ç·¨è™Ÿå­˜å…¥one
                     one.number_school = temp.substr( pre, pos - pre ) ;
                     pre = pos + 1 ;
                     break ;
-                case 2 :                                    // ¾Ç®Õ¦WºÙ¦s¤Jone
+                case 2 :                                    // å­¸æ ¡åç¨±å­˜å…¥one
                     one.school = temp.substr( pre, pos - pre ) ;
                     pre = pos + 1 ;
                     break ;
-                case 3 :                                    // ¬ì¨t¥N½X¤£»İ­n¤£¤©²z·|
+                case 3 :                                    // ç§‘ç³»ä»£ç¢¼ä¸éœ€è¦ä¸äºˆç†æœƒ
                     pre = pos + 1 ;
                     break ;
-                case 4 :                                    // ¬ì¨t¦WºÙ¦s¤Jone
+                case 4 :                                    // ç§‘ç³»åç¨±å­˜å…¥one
                     one.department = temp.substr( pre, pos - pre ) ;
                     pre = pos + 1 ;
                     break ;
-                case 5 :                                    // ¤é©]§O¦s¤Jone
+                case 5 :                                    // æ—¥å¤œåˆ¥å­˜å…¥one
                     one.day_or_night = temp.substr( pre, pos - pre ) ;
                     pre = pos + 1 ;
                     break ;
-                case 6 :                                    // µ¥¯Å§O¦s¤Jone
+                case 6 :                                    // ç­‰ç´šåˆ¥å­˜å…¥one
                     one.rank = temp.substr( pre, pos - pre ) ;
                     pre = pos + 1 ;
                     break ;
-                case 7 :                                    // ¾Ç¥Í¼Æ¦s¤Jone
+                case 7 :                                    // å­¸ç”Ÿæ•¸å­˜å…¥one
                     one.quantity_student = atoi(temp.substr( pre, pos - pre ).c_str()) ;
                     pre = pos + 1 ;
                     check2 = false ;
@@ -204,7 +201,7 @@ bool load( vector<collegeType> &cSet ) {                    // ­t³dÅª¤JÀÉ®×ªºfun
 		   || one.rank.empty() || one.school.empty() || one.quantity_student == 0 )
 		   int h = 0;
         else
-           cSet.push_back( one ) ;                          // ±None©ñ¤JcSet³o­Óvectorªº§Àºİ
+           cSet.push_back( one ) ;                          // å°‡oneæ”¾å…¥cSeté€™å€‹vectorçš„å°¾ç«¯
 
     } // out_while
 
@@ -217,18 +214,18 @@ bool load( vector<collegeType> &cSet ) {                    // ­t³dÅª¤JÀÉ®×ªºfun
 }
 
 void need() {
-    cout << "\nEnter a keyword of ¾Ç®Õ¦WºÙ: [*]for all\n";
+    cout << "\nEnter a keyword of å­¸æ ¡åç¨±: [*]for all\n";
     cin >> gSchool;
-    cout << "Enter a keyword of ¬ì¨t¦WºÙ: [*]for all\n";
+    cout << "Enter a keyword of ç§‘ç³»åç¨±: [*]for all\n";
     cin >> gDepartment;
-    cout << "Enter a keyword of ¤é©]§O: [*]for all\n";
+    cout << "Enter a keyword of æ—¥å¤œåˆ¥: [*]for all\n";
     cin >> gDay_or_night;
-    cout << "Enter a keyword of µ¥¯Å§O: [*]for all\n";
+    cout << "Enter a keyword of ç­‰ç´šåˆ¥: [*]for all\n";
     cin >> gRank;
 }
 
 void print() {
-     cout << "\n¦@¦³" << gAnswer.size() << "µ§¸ê®Æ" << endl ;
+     cout << "\nå…±æœ‰" << gAnswer.size() << "ç­†è³‡æ–™" << endl ;
 	 int i = 0;
 	 while( i < gAnswer.size()) {
 	     cout << "[" << i+1 << "]" << gAnswer[i].school << gAnswer[i].department << ", " ;
@@ -249,13 +246,13 @@ void filter(vector<collegeType> &aSet){
     vector<collegeType> tempS(aSet);                      // a copy of the entire vector (array)
     collegeType answer ;
     int i = 0;
-    for( ; i < tempS.size() ; i ++  )                     // ¤@µ§µ§¸ê®Æ©¹¤U§ä ¥ş³¡¿z¿ï±ø¥ó²Å¦X´N¦L¥X
+    for( ; i < tempS.size() ; i ++  )                     // ä¸€ç­†ç­†è³‡æ–™å¾€ä¸‹æ‰¾ å…¨éƒ¨ç¯©é¸æ¢ä»¶ç¬¦åˆå°±å°å‡º
         if ( gSchool == "*" || strstr( tempS[i].school.c_str(),gSchool.c_str()) != NULL )
            if ( gDepartment == "*" || strstr( tempS[i].department.c_str(), gDepartment.c_str() ) != NULL)
               if ( gDay_or_night  == "*" || strstr( tempS[i].day_or_night.c_str(), gDay_or_night.c_str() ) != NULL )
                  if ( gRank == "*" || strstr( tempS[i].rank.c_str(), gRank.c_str() ) != NULL )
-                 	gAnswer.push_back( tempS[i] ) ;       // §â²Å¦X¸ê®Æªº©ñ¤Jµª®×¥e¦s
-} // ¿z¿ï  { if (size >= MAX_HEAP)
+                 	gAnswer.push_back( tempS[i] ) ;       // æŠŠç¬¦åˆè³‡æ–™çš„æ”¾å…¥ç­”æ¡ˆå å­˜
+} // ç¯©é¸  { if (size >= MAX_HEAP)
 
 void swapheap( int sparent, int splace ){
   Heap temp;
@@ -268,9 +265,9 @@ void swapheap( int sparent, int splace ){
 }
 
 bool IsOddFloor( int number ) {
-  int total = 0, floor = 0  ;                               // floor+1¬O¥Ø«e¼h¼Æ
-  for (;  total < number; floor ++ )  total = total + pow( 2, floor ) ;	    	            // pow¬° ­pºâ¦¸¤èªº¤½¦¡
-  if( floor % 2 != 0 ) return true ;                        // °j°éµ²§ô¤w¸g¦Û°Ê+1 ¤£¶·¦A¯S§Oª`·N
+  int total = 0, floor = 0  ;                               // floor+1æ˜¯ç›®å‰å±¤æ•¸
+  for (;  total < number; floor ++ )  total = total + pow( 2, floor ) ;	    	            // powç‚º è¨ˆç®—æ¬¡æ–¹çš„å…¬å¼
+  if( floor % 2 != 0 ) return true ;                        // è¿´åœˆçµæŸå·²ç¶“è‡ªå‹•+1 ä¸é ˆå†ç‰¹åˆ¥æ³¨æ„
   else return false ;
 }
 void heapInsert () {
@@ -281,19 +278,19 @@ void heapInsert () {
 	    put.quantity_student = gAnswer[i].quantity_student ;
 	    heap.push_back( put ) ;
 
-        int place = heap.size()-1;               // ¤l¸`
-        int parent = ( place - 1) / 2; //¤÷¸`
-   	    int grandparent = ( parent -1 ) / 2 ;    //¯ª¤÷
+        int place = heap.size()-1;               // å­ç¯€
+        int parent = ( place - 1) / 2; //çˆ¶ç¯€
+   	    int grandparent = ( parent -1 ) / 2 ;    //ç¥–çˆ¶
         while ( place - 1 > 0 ){
-		  bool IsOdd = IsOddFloor( place +1)  ;                // §PÂ_¼h¼Æ¬O¥H1¶}©l ©Ò¥H­n+1
-		  if ( !IsOdd ) {                                      // °¸¼Æ¼h
+		  bool IsOdd = IsOddFloor( place +1)  ;                // åˆ¤æ–·å±¤æ•¸æ˜¯ä»¥1é–‹å§‹ æ‰€ä»¥è¦+1
+		  if ( !IsOdd ) {                                      // å¶æ•¸å±¤
 		  	if ( heap[place].quantity_student < heap[parent].quantity_student )
                 swapheap( parent,place ) ;
-		  	if ( place != 0 && parent != 0 )                   //¬O§_¦³¯ª¤÷
+		  	if ( place != 0 && parent != 0 )                   //æ˜¯å¦æœ‰ç¥–çˆ¶
 			  if ( heap[place].quantity_student > heap[grandparent].quantity_student )
                 swapheap( grandparent,place ) ;
 		  }
-		  else{  //©_¼Æ¼h
+		  else{  //å¥‡æ•¸å±¤
 		  	if ( heap[place].quantity_student > heap[parent].quantity_student ) swapheap( parent,place ) ;
 		  	if ( place != 0 && parent != 0 )
 			  if ( heap[place].quantity_student < heap[grandparent].quantity_student )	swapheap( grandparent,place ) ;
@@ -304,12 +301,12 @@ void heapInsert () {
         } // end while
         i = i + 1;
       }
-	  int total = 0, floor = 0  ;                               // floor+1¬O¥Ø«e¼h¼Æ
-      for (;  total < i-1  ; floor ++ )  total = total + pow( 2, floor ) ;	    	            // pow¬° ­pºâ¦¸¤èªº¤½¦¡
-      total = 0 ;    //­pºâ¼h¼Æ
- 	  for ( int k = 0 ; k < floor -1  ; k ++ ) total = total + pow( 2, k ) ;                               //¥Î¼h¼Æ¥hºâ³Ì¥ªÃäªº¸¹½X
-      cout << "©³³¡(¥k¤U): [" << heap[i-1].i+1 << "]  " << heap[i-1].quantity_student << endl;
-	  cout << "©³³¡(¥ª¤U): [" << heap[total].i+1 << "]  " << heap[total].quantity_student << endl;
+	  int total = 0, floor = 0  ;                               // floor+1æ˜¯ç›®å‰å±¤æ•¸
+      for (;  total < i-1  ; floor ++ )  total = total + pow( 2, floor ) ;	    	            // powç‚º è¨ˆç®—æ¬¡æ–¹çš„å…¬å¼
+      total = 0 ;    //è¨ˆç®—å±¤æ•¸
+ 	  for ( int k = 0 ; k < floor -1  ; k ++ ) total = total + pow( 2, k ) ;                               //ç”¨å±¤æ•¸å»ç®—æœ€å·¦é‚Šçš„è™Ÿç¢¼
+      cout << "åº•éƒ¨(å³ä¸‹): [" << heap[i-1].i+1 << "]  " << heap[i-1].quantity_student << endl;
+	  cout << "åº•éƒ¨(å·¦ä¸‹): [" << heap[total].i+1 << "]  " << heap[total].quantity_student << endl;
       //for ( int qq= 0 ; qq < heap.size() ; qq ++ ) {
       //	cout << qq << "  " << heap[qq].quantity_student << endl ;
       //}
